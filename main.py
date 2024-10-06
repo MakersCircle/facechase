@@ -1,16 +1,19 @@
 import cv2
 from src.face_detection import FaceDetector
 from src.arduino_communication import ArduinoCommunicator
-from src.motor_control import MotorController
+from src.motor_control import MotorControl
 
 
 def main():
     # Initialize face detector, Arduino communicator, and motor controller
     face_detector = FaceDetector()
-    # arduino = ArduinoCommunicator('/dev/ttyACM0')  # Update the port as per your setup
-    motor_controller = MotorController('arduino')
+    arduino = ArduinoCommunicator('/dev/ttyACM0')  # Update the port as per your setup
 
     cap = cv2.VideoCapture(0)  # Open the webcam
+
+    ret, frame = cap.read()
+    motor_control = MotorControl(frame_size=(frame.shape[1], frame.shape[0]))
+    pan_angle, tilt_angle = 90, 90
 
     tracked_face = None  # Stores the first detected face coordinates
 
@@ -24,15 +27,14 @@ def main():
         frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         # Detect faces in the frame
         faces = face_detector.detect_faces(frame)
-
         if faces:
-            if not tracked_face:
-                # If no face is currently tracked, start tracking the first detected face
-                tracked_face = faces[0]
+
 
             # Continue tracking the first detected person
-            x, y, w, h = tracked_face
-            motor_controller.move_to_face(x, y, frame.shape)
+            x, y, w, h = faces[0]
+
+            pan_angle, tilt_angle = motor_control.update_angles(x, y, w, h)
+        arduino.send_angles(pan_angle, tilt_angle)
 
         # Show the frame with detections
         face_detector.draw_detections(frame, faces)

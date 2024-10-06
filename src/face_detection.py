@@ -30,6 +30,9 @@ if __name__ == '__main__':
     cap = cv2.VideoCapture(0)
     detector = FaceDetector()
 
+    ret, frame = cap.read()
+    print(frame.shape)
+
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -39,10 +42,13 @@ if __name__ == '__main__':
 
         frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
+
         faces = detector.detect_faces(frame)
 
         # Draw the detections on the frame
         detector.draw_detections(frame, faces)
+
+        print(faces)
 
         # Display the frame
         cv2.imshow('Face Detection Test', frame)

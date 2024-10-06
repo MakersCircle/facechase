@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   servoVer.attach(5); // Attach Vertical Servo to Pin 5
   servoHor.attach(6); // Attach Horizontal Servo to Pin 6
-  servoVer.write(90);  // Set vertical servo to 90 degrees
+  servoVer.write(60);  // Set vertical servo to 90 degrees
   servoHor.write(90);  // Set horizontal servo to 90 degrees
 }
 
