@@ -16,12 +16,12 @@ class MotorControl:
         self.tilt_angle = tilt_initial
 
         # PID parameters for Pan and Tilt
-        self.PAN_KP, self.PAN_KI, self.PAN_KD = 0.0081, 0.0, 0.0  # Adjust as needed
-        self.TILT_KP, self.TILT_KI, self.TILT_KD = 0.008, 0.0, 0.0
+        self.PAN_KP, self.PAN_KI, self.PAN_KD = 0.01, 0.0, 0.0  # Adjust as needed
+        self.TILT_KP, self.TILT_KI, self.TILT_KD = 0.01, 0.0, 0.0
 
         # Pan and Tilt angle limits
-        self.PAN_ANGLE_MIN, self.PAN_ANGLE_MAX = 50, 120
-        self.TILT_ANGLE_MIN, self.TILT_ANGLE_MAX = 70, 110
+        self.PAN_ANGLE_MIN, self.PAN_ANGLE_MAX = 5, 175
+        self.TILT_ANGLE_MIN, self.TILT_ANGLE_MAX = 20, 120
 
         self.pan_output, self.tilt_output = 0, 0
 
